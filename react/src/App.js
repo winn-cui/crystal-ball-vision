@@ -50,7 +50,7 @@ function App() {
   // axios.defaults.proxy.host = "http://localhost:5000"
   console.log('51')
   React.useEffect( () => {
-    axios.get(`https://crystalballvision.herokuapp.com/`)
+    axios.get(`/`)
     // fetch('/')
       .then( res => {
         setState({...state, data: res.data})
