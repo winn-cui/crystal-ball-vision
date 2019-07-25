@@ -1,0 +1,82 @@
+import React from 'react';
+import './App.css';
+import Viz from './components/Viz';
+
+import axios from 'axios';
+import styled from 'styled-components';
+
+function App() {
+
+
+
+  const [state, setState] = React.useState({
+    container_width: 0,
+    container_height: 0,
+    data: undefined
+  });
+
+
+  const containerRef = React.useRef(null);
+  React.useEffect( () => {
+    let clientRect = containerRef.current.getBoundingClientRect();
+    let width = clientRect.width
+    let height = clientRect.height
+  
+    if (width != undefined && state.container_width != undefined && state.container_width != clientRect.width) {
+      setState({...state, container_width: width})
+
+    }
+    if (height != undefined && state.container_height != undefined && state.container_height != clientRect.height) {
+      setState({...state, container_height: height})
+    }
+  });
+
+  // const containerRef = React.useRef(null);
+  // const handleContainerSizeChange = () => {
+  //   let clientRect = containerRef.current.getBoundingClientRect();
+  //   let width = clientRect.width
+  //   let height = clientRect.height
+  //   if (state.container_width != clientRect.width) {
+  //     setState({container_width: width})
+  //   }
+  //   if (state.container_height != clientRect.height) {
+  //     setState({container_height: height})
+  //   }
+  // }
+  
+
+
+  React.useEffect( () => {
+    axios.get('http://localhost:5000/')
+    // axios.get('/')
+      .then( res => {
+        setState({...state, data: res.data})
+      })
+      console.log('54')
+  }, []);
+
+    
+
+
+  // console.warn(state.container_width)
+  const Container = styled.div`
+    width: 100vw;
+    height: 100vh;
+  `;
+  // console.warn(state.container_width)
+
+
+  // console.log('68',state.container_height)
+  return (
+    <Container id='Container' ref={containerRef}>
+      <Viz 
+        width = {state.container_width}
+        height = {state.container_height}
+        data = {state.data}
+      />
+    </Container>
+  );
+}
+
+export default App;
+
