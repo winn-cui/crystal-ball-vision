@@ -41,15 +41,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'react/build')));
 
-
-
 // var driver = neo4j.driver('bolt://localhost:7687', neo4j.auth.basic('neo4j', 'OOSH00sh!'), { disableLosslessIntegers: true })
 var driver = neo4j.driver('bolt://hobby-hnghhenlakdagbkefbhbojdl.dbs.graphenedb.com:24787', neo4j.auth.basic('wahve', "b.ZLZrpCKZjely.Jmw4EBJRstvfmbqY"), { disableLosslessIntegers: true })
-bolt://hobby-hnghhenlakdagbkefbhbojdl.dbs.graphenedb.com:24787
+
 var session = driver.session()
 
 app.get('/', (req, res) => {
-    // console.log('BP 0', res);
     var graph = {"nodes": [],
             "links" :[]}
 
@@ -79,64 +76,14 @@ app.get('/', (req, res) => {
             })
             graph['links'] = relArr
             res.send(graph)
-            console.log(graph)
+            console.log('82', graph)
         })
         .catch((error) => session.close())
-    
-    // session
-    //     .run("match (n) return n.name, labels(n), id(n)")
-    //     .then(result => {
-    //         // console.log("bp1")
-    //         var nodeArr = []
-    //         // console.log("bp2")
-    //         result.records.forEach(record => {
-    //             // console.log(record._fields[1])
-    //             nodeArr.push({
-    //                name: record._fields[0],
-    //                label: record._fields[1][0],
-    //                id: record._fields[2],
-    //             });
-    //             // console.log(record._fields[0].properties);
-    //         });
-    //         // console.log("HERE");
-    //         graph['nodes'] = nodeArr
-    //         // console.log(graph);
-    //         res.render('index', {
-    //             nodes: nodeArr
-    //         });
-    //         // console.log("bp4")
-    //         // res.send('it works wow');
-    //     })
-    //     .run("match (s:TableNames)-[r:HAS]-(t:ID) return id(s), id(t), type(r)")
-    //     .then(result => {
-    //         var relArr = []
-    //         result.records.forEach(record => {
-    //             relArr.push({
-    //                 source: record._fields[0],
-    //                 target: record._fields[1][0],
-    //                 type: record._fields[2],
-    //             })
-    //         })
-    //         console.log(relArr)
-    //     })
-    //     .catch(err => {
-    //         // console.log("bp5")
-    //         // console.log(err);
-    //         // console.log("bp6")
-    //     });
+        console.log('85', '????')
 
-    // console.log("bp7")
-    // res.send('it works wow');
 });
 
-// app.post('/', function(req, res, next) {
-//     // Handle the post for this route
-// });
-
-
 const port = process.env.PORT || 5000;
-// app.listen(port);
-// console.log('Server started on port ${port}.');
 
 var listener = app.listen(port, function(){
     console.log('Listening on port ' + listener.address().port); //Listening on port 8888
