@@ -135,8 +135,12 @@ app.get('/', (req, res) => {
 
 
 const port = process.env.PORT || 5000;
-app.listen(port);
-console.log('Server started on port ${port}.');
+// app.listen(port);
+// console.log('Server started on port ${port}.');
+
+var listener = app.listen(port, function(){
+    console.log('Listening on port ' + listener.address().port); //Listening on port 8888
+});
 
 
 module.export = app;

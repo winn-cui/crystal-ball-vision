@@ -44,15 +44,18 @@ function App() {
   //   }
   // }
   
-
-
+  // axios.defaults.baseURL = 'http://localhost:5000';
+  // const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT || 'https://crystalballvision.herokuapp.com';
+  // console.log('49: ', process.env.REACT_APP_API_ENDPOINT)
+  // axios.defaults.proxy.host = "http://localhost:5000"
   React.useEffect( () => {
-    axios.get('http://localhost:5000/')
-    // axios.get('/')
+    axios.get(`https://crystalballvision.herokuapp.com/`)
+    // fetch('/')
       .then( res => {
         setState({...state, data: res.data})
+        console.log(res.data)
       })
-      console.log('54')
+      console.log('56')
   }, []);
 
     
