@@ -5,6 +5,8 @@ import Viz from './components/Viz';
 import axios from 'axios';
 import styled from 'styled-components';
 
+import PacmanLoader from 'react-spinners/PacmanLoader';
+
 function App() {
 
 
@@ -12,11 +14,35 @@ function App() {
   const [state, setState] = React.useState({
     container_width: 0,
     container_height: 0,
-    data: undefined
+    data: undefined,
+    loading: true
   });
 
 
   const containerRef = React.useRef(null);
+  React.useEffect( () => {
+    var resp = null
+    instance.get(`/data`)
+    // fetch('/')
+      .then( res => {
+        resp = res
+        setState({...state, data: res.data})
+      })
+    
+    const interval = setTimeout(() => {
+      setState({...state, data: resp.data, loading: false})
+    }, 5000);
+
+    }, []);
+  
+    
+  // React.useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setState({...state, loading: false})
+  //   }, 5000);
+  //   return () => clearInterval(interval);
+  // }, []);
+
   React.useEffect( () => {
     let clientRect = containerRef.current.getBoundingClientRect();
     let width = clientRect.width
@@ -55,18 +81,20 @@ function App() {
   });
   
   // axios.defaults.proxy.host = "http://localhost:5000"
-  console.log('51')
-  React.useEffect( () => {
-    instance.get(`/data`)
-    // fetch('/')
-      .then( res => {
-        setState({...state, data: res.data})
-        console.log('WTFFFFRSTRSTSRSRT:', res.data)
-      })
-      console.log('56')
-  }, []);
+  // React.useEffect( () => {
+  //   instance.get(`/data`)
+  //   // fetch('/')
+  //     .then( res => {
+  //       setState({...state, data: res.data})
+  //       console.log('WTFFFFRSTRSTSRSRT:', res.data)
+  //     })
+  //     console.log('56')
+  // }, []);
 
-    
+  // var progress = (childData) => {
+  //   console.log('73', childData)
+  //   setState({...state, loading: false})
+  // }
 
 
   // console.warn(state.container_width)
@@ -77,14 +105,30 @@ function App() {
   // console.warn(state.container_width)
 
 
+  const override = "display: block; margin: 0; position: absolute; top:48%; left:48%; -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%); border-color: blue;"
+
+
   // console.log('68',state.container_height)
   return (
     <Container id='Container' ref={containerRef}>
+      {state.loading ? 
+      <PacmanLoader
+        css={override}
+        sizeUnit={"px"}
+        size={25}
+        color={'#7ec0ee'}
+        loading={state.loading}
+      /> : 
       <Viz 
         width = {state.container_width}
         height = {state.container_height}
         data = {state.data}
-      />
+        // loading = {progress}
+        />
+      }
+      
+      
+
     </Container>
   );
 }

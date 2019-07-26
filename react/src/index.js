@@ -4,6 +4,21 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+import ClipLoader from 'react-spinners/ClipLoader';
+
+function loading() {
+    const override = "display: block; margin: 0 auto; border-color: red;"
+    return (
+        <ClipLoader
+        css={override}
+        sizeUnit={"px"}
+        size={15}
+        color={'#123abc'}
+        // loading={state.loading}
+      />
+    )
+}
+loading()
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

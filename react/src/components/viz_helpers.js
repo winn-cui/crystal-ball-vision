@@ -7,10 +7,11 @@ import { json } from 'd3-fetch';
 import { drag } from 'd3-drag';
 import { attrs } from 'd3-selection-multi';
 import { zoom } from 'd3-zoom';
+// import { statementType } from 'neo4j-driver/types/v1/result-summary';
 
 
 
-const initGraph = (pass_width, pass_height, pass_data) => {
+const initGraph = (pass_width, pass_height, pass_data, pass_progress) => {
    
     var colors = scaleOrdinal(schemePastel1);
 
@@ -48,8 +49,6 @@ const initGraph = (pass_width, pass_height, pass_data) => {
 
 
     var graph = pass_data
-
-    console.log('50', graph)
       
     update(graph.links, graph.nodes);
 
@@ -127,16 +126,13 @@ const initGraph = (pass_width, pass_height, pass_data) => {
         //                     ""
         //                     }
         if (neighbors.includes(node.id)) {
-            console.log('127', node.id)
             return node.label === 'ID' ? 'green' : 'green'
 
         }
-        console.log('do i even make it here????')
         return node.label === 'ID' ? 'blue' : 'silver'
     }
 
     function isNeighborNode(node, neighbors) {
-        console.log('136',  neighbors.includes(node.id))
         return neighbors.includes(node.id)
     }
 
@@ -164,7 +160,6 @@ const initGraph = (pass_width, pass_height, pass_data) => {
         let neighbors = await getNeighbors(selectedNode).catch((error)=> {
             throw error
         })
-        console.log('141 ', neighbors)
         
         
         // can make this more efficient by doing one isNeighborNode check per node. Currently,
@@ -202,7 +197,6 @@ const initGraph = (pass_width, pass_height, pass_data) => {
             //     this.style.zIndex = "2"
             // })
         
-        console.log('196', nodeElements)
 
         // why is nodeElements.each(...) this keyword undefined??
         // nodeElements.each(node => {
@@ -365,6 +359,7 @@ const initGraph = (pass_width, pass_height, pass_data) => {
 
         simulation.force("link")
             .links(links);
+
     }
 
     function ticked() {
@@ -405,6 +400,8 @@ const initGraph = (pass_width, pass_height, pass_data) => {
         d.fx = event.x;
         d.fy = event.y;
     }
+
+    return true;
 }
 
 export default initGraph;
