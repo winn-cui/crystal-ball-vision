@@ -47,10 +47,17 @@ function App() {
   // axios.defaults.baseURL = 'http://localhost:5000';
   // const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT || 'https://crystalballvision.herokuapp.com';
   // console.log('49: ', process.env.REACT_APP_API_ENDPOINT)
+  const instance = axios.create({
+    proxy: {
+      host: '0.0.0.0',
+      port: 5000,
+    }
+  });
+  
   // axios.defaults.proxy.host = "http://localhost:5000"
   console.log('51')
   React.useEffect( () => {
-    axios.get(`https://crystalballvision.herokuapp.com:80`)
+    instance.get(`/data`)
     // fetch('/')
       .then( res => {
         setState({...state, data: res.data})
